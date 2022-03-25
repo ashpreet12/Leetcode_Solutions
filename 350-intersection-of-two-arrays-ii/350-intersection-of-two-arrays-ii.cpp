@@ -1,11 +1,5 @@
 class Solution {
 public:
-    void printMap(unordered_map<int,int> m){
-        for(auto x : m){
-            cout<<x.first<<" "<<x.second<<"   ";
-        }
-        cout<<endl;
-    }
     unordered_map<int,int> createMap(vector<int> arr){
         unordered_map<int,int> m;
         for(auto num : arr){
