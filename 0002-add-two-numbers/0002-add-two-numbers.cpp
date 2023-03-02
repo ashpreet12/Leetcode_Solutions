@@ -1,100 +1,43 @@
-/**
- * Definition for singly-linked list.
- * struct ListNode {
- *     int val;
- *     ListNode *next;
- *     ListNode() : val(0), next(nullptr) {}
- *     ListNode(int x) : val(x), next(nullptr) {}
- *     ListNode(int x, ListNode *next) : val(x), next(next) {}
- * };
- */
 class Solution {
 public:
-    
+    ListNode* addNode(ListNode * head,int val){
+        ListNode * temp = new ListNode(val);
+        if(head == NULL){
+            return temp;
+        }
+        ListNode * curr = head;
+        while(curr->next != NULL){
+            curr = curr->next;
+        }
+        curr->next = temp;
+        return head;
+    } 
     ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
-        
-        ListNode*head = NULL;
-        ListNode*prev = NULL;
-        ListNode* temp1 = l1;
-        ListNode* temp2 = l2;
-        vector<int> add;
+        ListNode * sum = NULL;
         int carry = 0;
         
-        while(temp1!=NULL && temp2!=NULL){
-            
-            int sum = temp1->val + temp2->val + carry;
-            if(sum>9){
-                carry = (sum/10)%10;
-            }else{
-                carry = 0;
-            }
-            
-            //Inserting in Linked List
-            
-            if(head==NULL){
-                ListNode*temp = new ListNode();
-                temp->val = sum%10;
-                head = temp;
-                prev = temp;
-            }else{
-                ListNode*temp = new ListNode();
-                temp->val = (sum%10);
-                prev->next = temp;
-                prev = temp;
-            }
-            
-            
-            temp1 = temp1->next;
-            temp2 = temp2->next;
+        while(l1 != NULL && l2 != NULL){
+            int digitSum = carry + l1->val + l2->val;
+            sum = addNode(sum,digitSum % 10);
+            carry = digitSum / 10;
+            l1 = l1->next;
+            l2 = l2->next;
         }
         
-        
-        
-        if(temp1==NULL){
-            
-            while(temp2!=NULL){
-               int sum = temp2->val + carry;
-                if(sum>9){
-                    carry = (sum/10)%10;
-                }else{
-                    carry = 0;
-                } 
-                
-                ListNode*temp = new ListNode();
-                temp->val = (sum%10);
-                prev->next = temp;
-                prev = temp;
-                
-                temp2 = temp2->next;
-            }
-          
+        while(l1 != NULL){
+            int digitSum = carry + l1->val;
+            sum = addNode(sum,digitSum % 10);
+            carry = digitSum / 10;
+            l1 = l1->next;
         }
         
-        else if(temp2==NULL){
-            while(temp1!=NULL){
-               int sum = temp1->val + carry;
-                if(sum>9){
-                    carry = (sum/10)%10;
-                }else{
-                    carry = 0;
-                } 
-                
-                ListNode*temp = new ListNode();
-                temp->val = (sum%10);
-                prev->next = temp;
-                prev = temp;
-                
-                temp1 = temp1->next;
-            }
+        while(l2 != NULL){
+            int digitSum = carry + l2->val;
+            sum = addNode(sum,digitSum % 10);
+            carry = digitSum / 10;
+            l2 = l2->next;
         }
         
-        if(carry!=0){
-                ListNode*temp = new ListNode();
-                temp->val = carry;
-                prev->next = temp;
-                prev = temp;
-        }
-        
-        return head;
+        return carry == 0 ? sum : addNode(sum,carry);
     }
 };
