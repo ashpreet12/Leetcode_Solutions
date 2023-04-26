@@ -1,22 +1,22 @@
+
 class Solution {
 public:
     int getLength(ListNode * head){
         int count = 0;
-        while(head != NULL){
+        ListNode * curr = head;
+        while(curr != NULL){
+            curr = curr->next;
             count++;
-            head = head->next;
         }
         return count;
     }
-    
-    ListNode * deleteNthNode(ListNode * head, int n){
+    ListNode * removeNthNode(ListNode * head,int n){
         if(head == NULL){
             return NULL;
         }
         if(n == 1){
             return head->next;
         }
-        
         ListNode * temp = head;
         while(n > 2) {
             temp = temp->next;
@@ -25,8 +25,9 @@ public:
         temp->next = temp->next->next;
         return head; 
     }
-    ListNode* removeNthFromEnd(ListNode* head, int n) {
-        int nodeToBeRemoved = getLength(head) - n + 1;
-        return deleteNthNode(head,nodeToBeRemoved);
+    ListNode * removeNthFromEnd(ListNode* head, int n) {
+        int len = getLength(head);
+        
+        return removeNthNode(head, len - n + 1);
     }
 };
